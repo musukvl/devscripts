@@ -86,3 +86,6 @@ else
 fi
 
 sudo apt-get install -y mc
+
+#configure git
+git config --global credential.helper store
