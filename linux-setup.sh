@@ -85,7 +85,24 @@ else
     echo "kubectl already installed"
 fi
 
+
+if ! (command -v dotnet) ; 
+then 
+    echo "Install Dotnet SDK"
+    wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+    sudo dpkg -i packages-microsoft-prod.deb
+    rm packages-microsoft-prod.deb
+    sudo apt-get update
+    sudo apt-get install -y dotnet-sdk-6.0 dotnet-sdk-7.0
+else
+    echo "Dotnet already installed"
+fi
+
 sudo apt-get install -y mc
 
 #configure git
 git config --global credential.helper store
+
+
+
+
