@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 # 
-# Installs terraform, go, az cli
+# Installs terraform, go, az cli, dotnet for WSL environment
+
+cd ~
 
 sudo apt-get update -y
 
