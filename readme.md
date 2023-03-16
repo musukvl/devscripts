@@ -7,3 +7,8 @@ Stack:
 * Dotnet SDK
 * Azure CLI
 * kubectl
+
+```
+chmod +x ./wsl-setup.sh
+sudo ./wsl-setup.sh
+```
