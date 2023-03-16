@@ -5,17 +5,17 @@
 cd ~
 
 sudo apt-get update -y
-sudo apt-get install -y wget apt-transport-https software-properties-common
+sudo apt-get install -y mc
 
 mkdir -p "$(pwd)/go/bin"
-cat <<EOT > .ary-settings.sh
+cat <<EOT > .dev-settings.sh
 export GOBIN=$(pwd)/go/bin
 EOT
 
-if ! grep -q ".ary-settings.sh" .bashrc ; 
+if ! grep -q ".dev-settings.sh" .bashrc ; 
 then 
-  echo "add ary-settings to .bashrc"
-  echo ". ~/.ary-settings.sh" >> .bashrc
+  echo "add dev-settings to .bashrc"
+  echo ". ~/.dev-settings.sh" >> .bashrc
 fi
 
 if ! command -v go ; 
@@ -30,11 +30,12 @@ then
   fi
   sudo rm -rf /usr/local/go
   sudo tar -C /usr/local -xzf go$GO_VERSION.tar.gz
+
+  echo "export GOROOT=/usr/local/go"          >> ~/.bashrc
+  echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.bashrc
 else
   echo "Go already installed" 
 fi
-echo "export GOROOT=/usr/local/go"          >> ".ary-settings.sh" 
-echo "export PATH=\$PATH:/usr/local/go/bin" >> ".ary-settings.sh" 
 
 
 if ! command -v terraform ; 
@@ -92,7 +93,7 @@ fi
 if ! (command -v dotnet) ; 
 then 
     echo "Install Dotnet SDK"
-    wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+    wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
     sudo dpkg -i packages-microsoft-prod.deb
     rm packages-microsoft-prod.deb
     sudo apt-get update
@@ -101,16 +102,27 @@ else
     echo "Dotnet already installed"
 fi
 
+# Check if Homebrew is already installed
+if test ! $(which brew); then
+    echo "Installing Homebrew..."
+    # Install the prerequisites
+    sudo apt-get update
+    sudo apt-get install -y curl git build-essential
 
+    # Install Homebrew
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-sudo apt-get update
+    # Add Homebrew to the PATH    
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>~/.bashrc
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-sudo apt-get install -y mc
-sudo apt-get install -y powershell
+    echo 'export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"' >> ~/.bashrc
+    source ~/.profile
+else
+  echo "Brew already installed"
+fi
+
 
 #configure git
 git config --global credential.helper store
-
-
-
 
