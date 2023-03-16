@@ -8,7 +8,8 @@ Stack:
 * Azure CLI
 * kubectl
 
+Run as normal user
 ```
 chmod +x ./wsl-setup.sh
-sudo ./wsl-setup.sh
+./wsl-setup.sh
 ```
