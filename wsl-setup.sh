@@ -5,6 +5,7 @@
 cd ~
 
 sudo apt-get update -y
+sudo apt-get install -y wget apt-transport-https software-properties-common
 
 mkdir -p "$(pwd)/go/bin"
 cat <<EOT > .ary-settings.sh
@@ -91,7 +92,7 @@ fi
 if ! (command -v dotnet) ; 
 then 
     echo "Install Dotnet SDK"
-    wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+    wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
     sudo dpkg -i packages-microsoft-prod.deb
     rm packages-microsoft-prod.deb
     sudo apt-get update
@@ -100,7 +101,12 @@ else
     echo "Dotnet already installed"
 fi
 
+
+
+sudo apt-get update
+
 sudo apt-get install -y mc
+sudo apt-get install -y powershell
 
 #configure git
 git config --global credential.helper store
